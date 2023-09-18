@@ -1,0 +1,9 @@
+{
+  "name": "CodeCademy-BackEndEngineer-PersonalBudget",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Darren McGhee",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
