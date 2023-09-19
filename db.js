@@ -64,10 +64,28 @@ const addRecordToDb = (type, body) => {
     return newRecord;
 };
 
+const deleteFromDbById = (type, record) => {
+    const instance = getTypeFromDb(type);
+    console.log(instance);
+
+    console.log(record);
+
+    const recordIndex = instance.indexOf(record[0]);
+    console.log(recordIndex);
+
+    if (recordIndex !== -1) {
+        db.allEnvelopes.splice(recordIndex, 1);
+        return true;
+    } else {
+        return null;
+    }
+};
+
 module.exports = {
     getAllFromDb,
     getTypeFromDb,
     getTypeFromDbWithId,
     getMaxIdOfType,
-    addRecordToDb
+    addRecordToDb,
+    deleteFromDbById
 };

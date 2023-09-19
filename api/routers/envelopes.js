@@ -7,7 +7,8 @@ const {
     getTypeFromDb,
     getTypeFromDbWithId,
     getMaxIdOfType,
-    addRecordToDb
+    addRecordToDb,
+    deleteFromDbById
 } = require('../../db.js');
 
 envelopeRouter.param('id', (req, res, next, id) => {
@@ -40,6 +41,21 @@ envelopeRouter.post('/', (req, res, next) => {
         res.status(201).send(newEnvelope);
     } else {
         res.status(401).send();
+    };
+});
+
+envelopeRouter.delete('/:id', (req, res, next) => {
+    if (Object.hasOwn(req, "idRecord")) {
+        const deleteRecord = deleteFromDbById(type, req.idRecord);
+        console.log(deleteRecord);
+
+        if (deleteRecord) {
+            res.send();
+        } else {
+            res.status(400).send();
+        };        
+    } else {
+        res.status(404).send();
     };
 });
 
