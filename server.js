@@ -6,7 +6,8 @@ const PORT = 3000;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-const 
+const apiRouter = require('./api/api.js');
+app.use('/api', apiRouter);
 
 app.get('/', (req, res, next) => {
     res.send('Hello World');
