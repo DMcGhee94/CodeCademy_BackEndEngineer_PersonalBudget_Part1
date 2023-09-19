@@ -25,6 +25,14 @@ envelopeRouter.get('/', (req, res, next) => {
     res.send(getTypeFromDb(type));
 });
 
+envelopeRouter.get('/:id', (req, res, next) => {
+    if (Object.hasOwn(req, "idRecord")) {
+        res.send(req.idRecord);
+    } else {
+        res.status(404).send();
+    };
+});
+
 envelopeRouter.post('/', (req, res, next) => {
     const newEnvelope = addRecordToDb(type, req.body);
 
