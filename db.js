@@ -1,30 +1,41 @@
-const envelope = {};
-
-const db = {
-    allEnvelopes: envelope
+const billsEnvelope = {
+    id: "1",
+    name: "bills",
+    currentBalance: 1000
 };
 
-const getAllFromDb = (type) => {
+const db = {
+    allEnvelopes: [billsEnvelope]
+};
+
+const getAllFromDb = () => {
+    return db;
+};
+
+const getTypeFromDb = (type) => {
     switch (type) {
-        case 'envelopes':
+        case ("envelopes"):
             return db.allEnvelopes;
             break;
         default:
             return null;
+            break;
     };
 };
 
-const getIdFromDb = (type, id) => {
-    const model = getAllFromDb(type);
-    if (model === null) {
-        return null;
-    } else {
-        return model.find((element) => {
-            return element.id === id;
-        }) ;    
-    };
-};
+const getMaxIdOfType = (type) => {
+    const allRecords = getTypeFromDb(type);
+    var largestId = 0;
+    var largestIdObject = null;
 
-const addNewToDb = (type, body) => {
-    
+    for (let i = 0; i < allRecords.length; i++) {
+        let currentId = allRecords[i].id;
+
+        if (currentId > largestId) {
+            largestId = currentId;
+            largestIdObject = allRecords[i];
+        };
+    };
+
+    return {largestId, largestIdObject};
 };
