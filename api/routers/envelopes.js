@@ -9,7 +9,8 @@ const {
     getMaxIdOfType,
     addRecordToDb,
     deleteFromDbById,
-    updateRecordInDb
+    updateRecordInDb,
+    transferBalanceInDb
 } = require('../../db.js');
 
 envelopeRouter.param('id', (req, res, next, id) => {
@@ -70,6 +71,19 @@ envelopeRouter.put('/:id', (req, res, next) => {
         }
     } else {
         res.status(404).send();
+    };
+});
+
+envelopeRouter.post('/transfer/:from/:to', (req, res, next) => {
+    const fromRecord = getTypeFromDbWithId(type, req.params.from);
+    const toRecord = getTypeFromDbWithId(type, req.params.to);
+
+    const transferResponse = transferBalanceInDb(type, fromRecord, toRecord, req.body.balChange);
+
+    if (transferResponse) {
+        res.send();
+    } else {
+        res.status(400).send();
     };
 });
 

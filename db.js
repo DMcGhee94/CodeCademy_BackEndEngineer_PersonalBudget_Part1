@@ -94,6 +94,29 @@ const updateRecordInDb = (type, record, body) => {
     };
 };
 
+const updateBalance = (index, balChange) => {
+    const newBalance = db.allEnvelopes[index].currentBalance + balChange;
+    db.allEnvelopes[index].currentBalance = newBalance;
+
+    return db.allEnvelopes[index];
+};
+
+const transferBalanceInDb = (type, fromRecord, toRecord, balChange) => {
+    try { 
+        const instance = getTypeFromDb(type);
+
+        const fromRecordIndex = findRecordIndexInTable(instance, fromRecord);
+        const toRecordIndex = findRecordIndexInTable(instance, toRecord);
+
+        const updatedFromRecord = updateBalance(fromRecordIndex, -balChange);
+        const updatedToRecord = updateBalance(toRecordIndex, balChange);
+
+        return {updatedFromRecord, updatedToRecord};
+    } catch {
+        return null;
+    }
+};
+
 module.exports = {
     getAllFromDb,
     getTypeFromDb,
@@ -101,5 +124,6 @@ module.exports = {
     getMaxIdOfType,
     addRecordToDb,
     deleteFromDbById,
-    updateRecordInDb
+    updateRecordInDb,
+    transferBalanceInDb
 };
