@@ -50,6 +50,10 @@ const getMaxIdOfType = (type) => {
     return {largestId, largestIdObject};
 };
 
+const findRecordIndexInTable = (table, record) => {
+    return table.indexOf(record[0]);
+};
+
 const addRecordToDb = (type, body) => {
     const newId = (getMaxIdOfType(type).largestId + 1).toString();
     const envelopes = getTypeFromDb(type);
@@ -66,19 +70,28 @@ const addRecordToDb = (type, body) => {
 
 const deleteFromDbById = (type, record) => {
     const instance = getTypeFromDb(type);
-    console.log(instance);
 
-    console.log(record);
-
-    const recordIndex = instance.indexOf(record[0]);
-    console.log(recordIndex);
+    const recordIndex = findRecordIndexInTable(instance, record);
 
     if (recordIndex !== -1) {
         db.allEnvelopes.splice(recordIndex, 1);
         return true;
     } else {
         return null;
-    }
+    };
+};
+
+const updateRecordInDb = (type, record, body) => {
+    const instance = getTypeFromDb(type);
+
+    const recordIndex = findRecordIndexInTable(instance, record);
+
+    if (recordIndex !== -1) {
+        db.allEnvelopes[recordIndex] = body;
+        return db.allEnvelopes[recordIndex];
+    } else {
+        return null;
+    };
 };
 
 module.exports = {
@@ -87,5 +100,6 @@ module.exports = {
     getTypeFromDbWithId,
     getMaxIdOfType,
     addRecordToDb,
-    deleteFromDbById
+    deleteFromDbById,
+    updateRecordInDb
 };
